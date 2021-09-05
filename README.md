@@ -38,12 +38,12 @@ Now you need to value the links between your routers.
 
 ## Network links
 
-The nodejs script ```query.js``` allows to gather link values listed in ```public/net.txt``` at regular intervals and pass it to the weathermap web application via a redis pubsub (publish/subscribe).
+The nodejs script ```#> node query.js``` allows to gather link values listed in ```public/net.txt``` at regular intervals and pass it to the weathermap web application via a redis pubsub (publish/subscribe).
 The current script get the values via simple http request. Feel free to write your own collector.
 
 ## Network simulation
 
-To help start with NW6 network weathermap, you can use the link simulation script ```ǹode simul.js```.
+To help start with NW6 network weathermap, you can use the link simulation script ```#> ǹode simul.js```.
 
 ## Commands
 
@@ -67,8 +67,8 @@ Now you need an easy way to organize your nodes and edges on the map.
 Nodes and mipoint nodes can be simply moved by a ```click and drag/drop```.
 Something cool is the ability to ```automove``` the midpoints. Simply select it and press the ```a``` key. It's that simple.
 
-Selected nodes can be vertically or horizontally aligned on axes via pressing the keys ```x``` nand ```y```.
-Selected nodes can be vertically or horizontally evenly distributed via pressing the keys ```h``` nand ```v```.
+Selected nodes can be vertically or horizontally aligned on axes via pressing the keys ```x``` and ```y```.
+Selected nodes can be vertically or horizontally evenly distributed via pressing the keys ```h``` and ```v```.
 
 It's that easy.
 
