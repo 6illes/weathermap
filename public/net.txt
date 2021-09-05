@@ -1,0 +1,34 @@
+RTR1 Te1 in 10000            Router 1
+RTR1 Te1 out 10000
+RTR1 Te2 in 10000
+RTR1 Te2 out 10000
+RTR1 Te1/1 in 1000
+RTR1 Te1/1 out 1000
+#
+RTR2 Te1 in 10000            Router 2
+RTR2 Te1 out 10000
+RTR2 Te2 in 10000
+RTR2 Te2 out 10000
+RTR2 Gi1/1/1 in 1000
+RTR2 Gi1/1/1 out 1000
+#
+RTR3 Te1 in 10000            Router 3
+RTR3 Te1 out 10000
+RTR3 Te2 in 10000
+RTR3 Te2 out 10000
+RTR3 Te3 in 1000
+RTR3 Te3 out 1000
+#
+DC1 BE10 in 20000             DC1
+DC1 BE10 out 20000
+DC1 BE11 in 20000
+DC1 BE11 out 20000
+DC1 BE11.100 in 1000          vlans
+DC1 BE11.100 out 1000
+DC1 BE11.101 in 1000
+DC1 BE11.101 out 1000
+#
+DC2 BE10 in 20000             DC2
+DC2 BE10 out 20000
+DC2 BE11 in 20000
+DC2 BE11 out 20000

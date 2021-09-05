@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta http-equiv="expires" content="0">
+  <meta http-equiv="Content-Type" content="text/html">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>NETWORK WEATHERMAP</title>
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <script src="/public/cytoscape.min.js"></script>
+  <script src="/public/cytoscape-automove.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+
+    const url = 'http://{{host}}:{{port}}'
+    var socket = io.connect(url)
+
+    socket.on('connect',function() {
+       console.log('connected')
+    })
+    socket.on('disconnect',function() {
+       console.log('disconnected')
+    })
+
+  </script>
+
+  <style>
+    #cy {
+      z-index:1;
+      position:absolute;
+      top:0px; bottom:0px;
+      left:0px; right:0px;
+    }
+
+    .json {
+      width:50px;
+      height:40px;
+    }
+
+    #colormap {
+      z-index:3;
+      position:absolute;
+      top:10px; bottom:0px;
+      left:10px; right:0px;
+      width:70px;
+      height:270px;
+      border:1px solid #ccc;
+      font-size:11px;
+      font-family:"Helvetica, Arial, sans-serif";
+      padding-top:5px;
+      padding-right:4px;
+      background-color:#fff;
+    }
+    #SvgjsG1010 rect {
+      width:20px;
+      height:23px;
+    }
+  </style>
+
+
+
+  <style>
+
+    #xlabel {
+      z-index:2;
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      position: absolute;
+      top: 10px;
+      left: 100px;
+      background-color:#fff;
+    }
+
+    #xlabel .name {
+      margin: 5px 10px 5px 0;
+    }
+
+    #xlabel input {
+      vertical-align: middle;
+      margin: 5px 10px 5px 0;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
+    #xlabel button {
+      padding: 10px 10px;
+      background-color: dodgerblue;
+      border: 1px solid #ddd;
+      color: white;
+      cursor: pointer;
+    }
+
+    #press {
+      padding: 10px 10px;
+      background-color: dodgerblue;
+      border: 1px solid #ddd;
+      color: white;
+      cursor: pointer;
+    }
+
+    .class90 { background-color: #581845; fill:#581845; }
+    .class80 { background-color: #900c3f; fill:#900c3f; }
+    .class70 { background-color: #c70039; fill:#c70039; }
+    .class60 { background-color: #ff5733; fill:#ff5733; }
+    .class50 { background-color: #ffc300; fill:#ffc300; }
+    .class40 { background-color: #daf7a6; fill:#daf7a6; }
+    .class30 { background-color: #bbbbbb; fill:#bbbbbb; }
+    .class20 { background-color: #cccccc; fill:#cccccc; }
+    .class10 { background-color: #dddddd; fill:#dddddd; }
+    .class00 { background-color: #eeeeee; fill:#eeeeee; }
+
+//    span {
+//       height:35px;
+//    }
+    button {
+       width: 75px;
+       height:35px;
+    }
+    input {
+       width: 75px;
+//       height:25px;
+    }
+    #label {
+       width: 100px;
+    }
+    #itf {
+       width: 140px;
+    }
+    #flow {
+       width: 30px;
+    }
+    #ibps {
+       width: 50px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div id="cy"></div>
+
+<div id="colormap">
+<svg id="SvgjsSvg1008" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="100%" height="100%">
+<g id="SvgjsG1010" transform="matrix(1,0,0,1,44,7.5)">
+
+<rect id="SvgjsRect1091" class="class90" x="0" y="  0"></rect><line id="SvgjsLine1092" x1="-5" y1="  0" x2="0" y2="  0"></line><text id="SvgjsText1093" text-anchor="end" x="-12.5" y="-12.75"><tspan id="SvgjsTspan1094" dy="16.25" x="-12.5">100%</tspan></text>
+<rect id="SvgjsRect1083" class="class80" x="0" y=" 25"></rect><line id="SvgjsLine1084" x1="-5" y1=" 25" x2="0" y2=" 25"></line>
+<rect id="SvgjsRect1075" class="class70" x="0" y=" 50"></rect><line id="SvgjsLine1076" x1="-5" y1=" 50" x2="0" y2=" 50"></line><text id="SvgjsText1077" text-anchor="end" x="-12.5" y="37.25"><tspan id="SvgjsTspan1078" dy="16.25" x="-12.5">80%</tspan></text>
+<rect id="SvgjsRect1067" class="class60" x="0" y=" 75"></rect><line id="SvgjsLine1068" x1="-5" y1=" 75" x2="0" y2=" 75"></line>
+<rect id="SvgjsRect1059" class="class50" x="0" y="100"></rect><line id="SvgjsLine1060" x1="-5" y1="100" x2="0" y2="100"></line><text id="SvgjsText1061" text-anchor="end" x="-12.5" y="87.25"><tspan id="SvgjsTspan1062" dy="16.25" x="-12.5">60%</tspan></text>
+<rect id="SvgjsRect1051" class="class40" x="0" y="125"></rect><line id="SvgjsLine1052" x1="-5" y1="125" x2="0" y2="125"></line>
+<rect id="SvgjsRect1043" class="class30" x="0" y="150"></rect><line id="SvgjsLine1044" x1="-5" y1="150" x2="0" y2="150"></line><text id="SvgjsText1045" text-anchor="end" x="-12.5" y="137.25"><tspan id="SvgjsTspan1046" dy="16.25" x="-12.5">40%</tspan></text>
+<rect id="SvgjsRect1035" class="class20" x="0" y="175"></rect><line id="SvgjsLine1036" x1="-5" y1="175" x2="0" y2="175"></line>
+<rect id="SvgjsRect1027" class="class10" x="0" y="200"></rect><line id="SvgjsLine1028" x1="-5" y1="200" x2="0" y2="200"></line><text id="SvgjsText1029" text-anchor="end" x="-12.5" y="187.25"><tspan id="SvgjsTspan1030" dy="16.25" x="-12.5">20%</tspan></text>
+<rect id="SvgjsRect1019" class="class00" x="0" y="225"></rect><line id="SvgjsLine1020" x1="-5" y1="225" x2="0" y2="225"></line>
+<text id="SvgjsText1096" text-anchor="end" x="-12.5" y="250"><tspan id="SvgjsTspan1097" dy="0" x="-12.5">0%</tspan></text>
+
+</g>
+</svg>
+</div>
+
+<script>
+function vcolor(rate) {
+  if(rate>0.90) { return "#581845" } else {
+    if(rate>0.80) { return "#900c3f" } else {
+      if(rate>0.70) { return "#c70039" } else {
+        if(rate>0.60) { return "#ff5733" } else {
+          if(rate>0.50) { return "#ffc300" } else {
+            if(rate>0.40) { return "#daf7a6" } else {
+              if(rate>0.30) { return "#bbbbbb" } else {
+                if(rate>0.20) { return "#cccccc" } else {
+                  if(rate>0.10) { return "#dddddd" } else {
+                    if(rate>0.00) { return "#eeeeee" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</script>
+
+<div id="xlabel">
+  <span>Map : </span>
+  <input type=text id="imap" placeholder="map" name="imap" value="MAP1">
+  <button id=cleanmap onclick="cleanthemap()">Clean</button>
+  <button id=setmap onclick="setthemap()">Save</button>
+  <button id=getmap onclick="getthemap()">Load</button>
+  <span>Label : </span>
+  <input type=text id="label" placeholder="label" name="label" value="">
+  <span>Interface : </span>
+  <input type=text id="itf" placeholder="interface" name="itf" value="">
+  <span>Flow : </span>
+  <input type=text id="flow" placeholder="flow" name="flow" value="" readonly>
+  <span>Bits : </span>
+  <input type=text id="ibps" placeholder="débit" name="ibps" value="" readonly>
+</div>
+
+<script>
+
+var getmap = document.getElementById('getmap')
+var setmap = document.getElementById('setmap')
+var cleanmap = document.getElementById('cleanmap')
+
+getmap.style.display = 'none'
+setmap.style.display = 'none'
+cleanmap.style.display = 'none'
+
+var imap  = document.getElementById('imap')
+var label = document.getElementById('label')
+var itf   = document.getElementById('itf')
+var flow  = document.getElementById('flow')
+var ibps   = document.getElementById('ibps')
+
+imap.value="MAP0"
+label.value=""
+itf.value=""
+flow.value=""
+ibps.value=""
+
+</script>
+
+<script src="/public/maps.js"></script>
+
+{{{body}}}
+
+</body>
+</html>
