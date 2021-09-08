@@ -92,10 +92,10 @@ It's that easy.
 | r | Toggle between routers icons |
 | e | Toggle between edges shapes straight or curved |
 | a | Automove a midpoint node between router nodes |
-| x | Align selected router nodes on x axe |
-| y | Align selected router nodes on y axe |
-| h | Evenly distribute selected router nodes on horizontal axe |
-| v | Evenly distribute selected router nodes on vertical axe |
+| x | Align selected router nodes on x axis |
+| y | Align selected router nodes on y axis |
+| h | Evenly distribute selected router nodes on horizontal axis |
+| v | Evenly distribute selected router nodes on vertical axis |
 
 ## Contributions
 
