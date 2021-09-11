@@ -15,6 +15,7 @@ an easy simple network weathermap by 6illes
 
 ## Installation
 I recommend you use [debian]
+
 First install redis server and nodejs ```#> apt install redis nodejs```
 - unzip the archive
 - install npm modules  ```#>./install.sh```
