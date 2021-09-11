@@ -33,7 +33,7 @@ First install redis server and nodejs ```#> apt install redis nodejs```
 [handlebars]: https://handlebarsjs.com/
 [socketio]: https://socket.io/
 
-- NDLR adapt directory paths in one or two scripts
+- NDLR adapt directory paths in one or two scripts (replace a ```TODO```)
 - execute the weathermap application ```#> node weathermap.js```
 - design your network weathermap ```http://localhost:4000/ed```
 - load your design (in the Map input press 'enter' key)
