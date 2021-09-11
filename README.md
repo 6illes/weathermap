@@ -36,7 +36,8 @@ First install redis server and nodejs ```#> apt install redis nodejs```
 - NDLR adapt directory paths in one or two scripts
 - execute the weathermap application ```#> node weathermap.js```
 - design your network weathermap ```http://localhost:4000/ed```
-- load/save your design
+- load your design (in the Map input press 'enter' key)
+- save/clean your design (click on buttons in edit mode)
 - distribute your design ```http://localhost:4000```
 
 Now you need to value the links between your routers.
