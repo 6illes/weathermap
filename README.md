@@ -40,7 +40,9 @@ First install redis server and nodejs ```#> apt install redis nodejs```
 - save/clean your design (click on buttons in edit mode)
 - locally your map is at ```http://localhost:4000``` no edition
 
-NDLR if you want to use beyond ```localhost``` you will need to adapt one or two scripts or template 
+NDLR if you want to use beyond ```localhost``` you will need to adapt one or two scripts or template
+
+Type ```MAP0``` in the Map input element and press ```Enter``` to load the sample map  
 
 Now you need to value the links between your routers.
 
@@ -91,6 +93,7 @@ It's that easy.
 
 | Key | Command |
 | ------ | ------ |
+| Enter | To validate inputs Map/Label/Interface |
 | Escape | Delete the selected routers and edges |
 | Shift | Select multiple routers and edges or create a link |
 | r | Toggle between routers icons |
