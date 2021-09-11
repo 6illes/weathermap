@@ -55,6 +55,7 @@ function getmap(socket,fname) {
 }
 
 // --------------------------------------------------
+// TODO dir for maps
 
 dir = '/home/gilles/DEV/cytoscape3'
 
