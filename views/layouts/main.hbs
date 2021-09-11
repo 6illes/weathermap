@@ -18,8 +18,9 @@
 
   <script>
 
-    const url = 'http://{{host}}:{{port}}'
-    var socket = io.connect(url)
+//    const url = 'http://{{host}}:{{port}}'
+//    var socket = io.connect(url)
+    var socket = io.connect()
 
     socket.on('connect',function() {
        console.log('connected')
