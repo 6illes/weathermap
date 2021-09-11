@@ -38,7 +38,9 @@ First install redis server and nodejs ```#> apt install redis nodejs```
 - design your network weathermap ```http://localhost:4000/ed```
 - load your design (in the Map input press 'enter' key)
 - save/clean your design (click on buttons in edit mode)
-- distribute your design ```http://localhost:4000```
+- locally your map is at ```http://localhost:4000``` no edition
+
+NDLR if you want to use beyond ```localhost``` you will need to adapt one or two scripts or template 
 
 Now you need to value the links between your routers.
 
