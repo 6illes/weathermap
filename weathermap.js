@@ -17,6 +17,7 @@ var app = express()
 var server = http.createServer(app)
 var io = socketio(server)
 
+// TODO for your FQDN
 var host = 'localhost'
 var port = 4000
 
