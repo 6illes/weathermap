@@ -85,6 +85,8 @@ It's that easy.
 | y | Align selected router nodes on y axe |
 | h | Evenly distribute selected router nodes on horizontal axe |
 | v | Evenly distribute selected router nodes on vertical axe |
+| b | Align selected edges on x axe |
+| j | Align selected edges on y axe |
 
 ## License
 
