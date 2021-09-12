@@ -26,6 +26,8 @@ function newmap() {
      listofedges: { },
      biedges: { },
      fqinterfaces: { },
+     fqinterfaces2: { },
+     qinterfaces2: { },
      classes: { },
   }
 }
@@ -74,11 +76,31 @@ socket.on('getmap',function(smap) {
       var classes = map0.classes[i]
       newLink2(i,edge.source,edge.target,'...',classes)
    }
-   if(!map0.fqinterfaces) map0.fqinterfaces = {}   // compat
+
+   if(!map0.fqinterfaces2) {
+      map0.fqinterfaces2 = {}   // compat
+      map0.qinterfaces2 = {}    // compat
+      upgradev2()
+   } else {
+      console.log('getmap v2')
+   }
+
+   console.log(map0)
 
    cy.center()
 })
 
+
+function upgradev2() {
+   for(var i in map0.fqinterfaces) {
+      var fqi = map0.fqinterfaces[i]
+      i2 = i+':'+fqi.id
+      if(map0.fqinterfaces2[i2]) continue
+      map0.fqinterfaces2[i2] = map0.fqinterfaces[i]
+      if(!map0.qinterfaces2[i]) map0.qinterfaces2[i] = []
+      map0.qinterfaces2[i].push(i2)
+   }
+}
 
 
 
@@ -431,10 +453,6 @@ function getEdge() {
 
 
 
-
-
-
-
 var isover = false
 
 function newNode2(x,position,label,classes) {
@@ -515,11 +533,10 @@ cy.on('click','edge',function(evt) {
   label.value = selected.id().toUpperCase()
   id = selected.id()
   edge = map0.listofedges[id]
+  console.log('id',id,edge)
   itf.value = edge.interface
   flow.value = edge.flow
   ibps.value = edge.ibps
-  console.log('edge',edge)
-  console.log('edge2',selected)
 })
 
 
@@ -545,30 +562,18 @@ cy.on('mouseout',function(evt) {
 
 
 
-
-
-
 function removeNode(node) {
+   var id = node.id()
    cedges = node.connectedEdges()
    for(let i = 0; i < cedges.length; i++) {
-      removeEdge(cedges[i])
+      var id = cedges[i].id()
+      delete map0.listofedges[id]
+      delete map0.biedges[id]
    }
-   delete map0.listofnodes[node.id()]
-   delete map0.classes[node.id()]
+   delete map0.listofnodes[id]
+   delete map0.listofjoins[id]
+   delete map0.classes[id]
    cy.remove(node)
-}
-function removeEdge(edge) {
-   id = edge.id()
-   peer = map0.biedges[id].peer
-   join = map0.biedges[id].join
-   delete map0.listofedges[id]
-   delete map0.listofedges[peer]
-   delete map0.listofjoins[join]
-   delete map0.biedges[id]
-   delete map0.biedges[peer]
-   cy.remove(edge)
-   cy.remove(cy.getElementById(peer))
-   cy.remove(cy.getElementById(join))
 }
 
 
@@ -582,14 +587,12 @@ document.addEventListener("keydown",function(e) {
   console.log('key',e.target.id)
   if(e.key==='Escape') {
      if(!doedit) return
+     if(!selected) return
      if(selected.isNode()) {
         removeNode(selected)
-     } else {
-        removeEdge(selected)
      }
      selected = 0
      isover = false;
-     return
   } else
   if(e.key==='x') {
     var minx = 10000
@@ -659,6 +662,32 @@ document.addEventListener("keydown",function(e) {
     var val = (maxy-miny)/(i-1)
     for(var i in tab) {
        tab[i].obj.position('y',miny+i*val)
+    }
+  } else
+  if(e.key==='j') {
+    console.log('j')
+    var group = cy.$('edge:selected')
+    for(var i = 0; i<group.length; i++) {
+       var g = group[i]
+       var source = g.source()
+       var target = g.target()
+       console.log('source',source.position())
+       console.log('target',target.position())
+       target.position('x',source.position('x'))
+       console.log('target',target.position())
+    }
+  } else
+  if(e.key==='b') {
+    console.log('b')
+    var group = cy.$('edge:selected')
+    for(var i = 0; i<group.length; i++) {
+       var g = group[i]
+       var source = g.source()
+       var target = g.target()
+       console.log('source',source.position())
+       console.log('target',target.position())
+       target.position('y',source.position('y'))
+       console.log('target',target.position())
     }
   } else
   if(e.key==='r') {
@@ -742,17 +771,26 @@ function updateLink(ledge,lnode) {
    peer.interface = itf.value
    peer.flow = 'in'
    peer.ibps = '...'
-   var fqinterface = lrtr+':'+itf.value
-   map0.fqinterfaces[fqinterface] = { 
+
+   var record = {
       id:ledge, router:lrtr, interface:itf.value, flow:flow.value,
       peer: biedge.peer, join: biedge.join,
    }
+
+   var fqinterface = lrtr+':'+itf.value
+   map0.fqinterfaces[fqinterface] = record
+
+   var fqinterface2 = fqinterface+':'+ledge
+   map0.fqinterfaces2[fqinterface2] = record
+
+   map0.qinterfaces2[fqinterface].push(fqinterface2)
 }
 itf.onkeyup = function(e) {
    if(!selected) return
    if(e.key==='Enter') {
       if(selected.isEdge()) {
          if(!testInterface(itf.value)) return
+//         if(!uniqueInterface(itf.value)) return
          var ledge = selected.id()
          var lnode = selected.source()
          updateLink(ledge,lnode)
@@ -760,36 +798,65 @@ itf.onkeyup = function(e) {
    }
 }
 
+function updateEdges(ledge,lpeer,linterface) {
+
+//   console.log('ledge',ledge,lpeer)
+
+   if(!map0.listofedges[ledge]) return
+   if(!map0.listofedges[lpeer]) return
+
+   liedge = linterface.out 
+   lipeer = linterface.in
+
+   liedge.rate = liedge.bps/liedge.ibps
+   liedge.color = vcolor(liedge.rate)
+
+   lipeer.rate = lipeer.bps/lipeer.ibps
+   lipeer.color = vcolor(lipeer.rate)
+
+   map0.listofedges[ledge].ibps = liedge.ibps
+   map0.listofedges[lpeer].ibps = lipeer.ibps
+
+   var edge = cy.getElementById(ledge)
+   var peer = cy.getElementById(lpeer)
+
+   edge.data('label',liedge.bps)
+   peer.data('label',lipeer.bps)
+
+   edge.style('line-color',liedge.color)
+   edge.style('target-arrow-color',liedge.color)
+
+   peer.style('line-color',lipeer.color)
+   peer.style('target-arrow-color',lipeer.color)
+}
+
+var next
+
 socket.on('interface',function(linterface) {
-//   console.log('intf',linterface)
+   console.log('intf',linterface)
 
    if(!testNode(linterface.router)) return
    if(!testInterface(linterface.interface)) return
 
    var fqi = linterface.router+':'+linterface.interface
    if(!map0.fqinterfaces) return
-   var fqinterface = map0.fqinterfaces[fqi]
-   if(!fqinterface) return
-   var ledge = fqinterface.id
-   var lpeer = fqinterface.peer
-   if(!map0.listofedges[ledge]) return
+   if(!map0.fqinterfaces2) return
+   if(!map0.qinterfaces2) return
 
-   map0.listofedges[ledge].ibps = linterface.out.ibps
-   map0.listofedges[lpeer].ibps = linterface.in.ibps
+   var tfqinterfaces2 = map0.qinterfaces2[fqi]
+   if(!tfqinterfaces2) return
 
-   var edge = cy.getElementById(ledge)
-   var peer = cy.getElementById(lpeer)
+   for(var i=0; i<tfqinterfaces2.length; i++) {
+      fqinterface2 = tfqinterfaces2[i]
+      ifqinterface2 = map0.fqinterfaces2[fqinterface2]
+      ledge = ifqinterface2.id
+      lpeer = ifqinterface2.peer
+      updateEdges(ledge,lpeer,linterface)
+   }
 
-   edge.data('label',linterface.out.bps)
-   peer.data('label',linterface.in.bps)
-
-   var rate = linterface.out.bps/linterface.out.ibps
-   var color = vcolor(rate)
-   edge.style('line-color',color)
-   edge.style('target-arrow-color',color)
-
-   rate = linterface.in.bps/linterface.in.ibps
-   color = vcolor(rate)
-   peer.style('line-color',color)
-   peer.style('target-arrow-color',color)
+   clearTimeout(next)
+   cycontainer.style.backgroundColor = '#fff'
+   next = setTimeout(function() {
+      cycontainer.style.backgroundColor = '#ccc'
+   },60*1000)
 })
