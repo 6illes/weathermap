@@ -4,7 +4,7 @@
 the easy simple network weathermap by 6illes
 
 ## Features
-- using [cytoscape] js library
+- using [cytoscape] js library and ```automove``` module
 - online design of your network weathermap
 - save/load your design and keep history
 - value the links (via pubsub of messages)
