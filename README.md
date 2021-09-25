@@ -16,7 +16,7 @@ an easy simple network weathermap by 6illes
 ## Installation
 I recommend you use [debian]
 
-First install redis server and nodejs ```#> apt install redis nodejs```
+First, install redis server and nodejs ```#> apt install redis nodejs```
 - unzip the archive
 - install npm modules  ```#>./install.sh```
 
@@ -34,12 +34,12 @@ First install redis server and nodejs ```#> apt install redis nodejs```
 [handlebars]: https://handlebarsjs.com/
 [socketio]: https://socket.io/
 
-- NDLR adapt directory paths in one or two scripts (replace a ```TODO```)
+- NDLR adapt the directory paths in one or two scripts (marked ```TODO```)
 - execute the weathermap application ```#> node weathermap.js```
 - design your network weathermap ```http://localhost:4000/ed```
-- load your design (in the Map input press 'enter' key)
+- load your design (press ```enter``` key to load the named Map input)
 - save/clean your design (click on buttons in edit mode)
-- locally your map is at ```http://localhost:4000``` no edition
+- your map is at ```http://localhost:4000``` (no edition)
 
 NDLR if you want to use beyond ```localhost``` you will need to adapt one or two scripts or template
 
